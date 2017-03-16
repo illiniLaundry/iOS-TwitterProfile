@@ -162,6 +162,7 @@ extension TwitterProfileViewController {
     let _mainScrollView = TouchRespondScrollView(frame: self.view.bounds)
     _mainScrollView.delegate = self
     _mainScrollView.showsHorizontalScrollIndicator = false
+    _mainScrollView.backgroundColor = UIColor.gray
     
     self.mainScrollView  = _mainScrollView
     
