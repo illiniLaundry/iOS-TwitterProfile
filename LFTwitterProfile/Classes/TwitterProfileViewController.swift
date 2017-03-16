@@ -11,71 +11,61 @@ import SnapKit
 
 open class TwitterProfileViewController: UIViewController {
   
-  // Global tint
-  open static var globalTint: UIColor = UIColor(red: 42.0/255.0, green: 163.0/255.0, blue: 239.0/255.0, alpha: 1)
+    // Global tint
+    open static var globalTint: UIColor = UIColor(red: 42.0/255.0, green: 163.0/255.0, blue: 239.0/255.0, alpha: 1)
   
   
-  // Constants
-  open let stickyheaderContainerViewHeight: CGFloat = 125
+    // MAGIC NUMBERS
+    // picture height
+    open let stickyheaderContainerViewHeight: CGFloat = 300
   
-  open let bouncingThreshold: CGFloat = 100
+    open let bouncingThreshold: CGFloat = 100
+
+    open let scrollToScaleDownProfileIconDistance: CGFloat = 240
+    
+    open let scrollToTopDistance: CGFloat = 60
   
-  open let scrollToScaleDownProfileIconDistance: CGFloat = 60
+    open var profileHeaderViewHeight: CGFloat = 80
   
-  open var profileHeaderViewHeight: CGFloat = 160 {
-    didSet {
-      //self.view.setNeedsLayout()
-      //self.view.layoutIfNeeded()
+    open let segmentedControlContainerHeight: CGFloat = 50
+
+    open var dormName: String? {
+        didSet {
+            self.profileHeaderView.dormNameLabel.text = dormName
+        }
     }
-  }
-  
-  open let segmentedControlContainerHeight: CGFloat = 46
-  
-  open var username: String? {
-    didSet {
-      self.profileHeaderView?.titleLabel?.text = username
-      
-      self.navigationTitleLabel?.text = username
+    
+    open var dormImage: UIImage? {
+        didSet {
+            self.headerCoverView?.image = dormImage
+        }
     }
-  }
-  
-  open var profileImage: UIImage? {
-    didSet {
-      self.profileHeaderView?.iconImageView?.image = profileImage
+    
+    open var availableLaundryMachines: String? {
+        didSet {
+            self.profileHeaderView.availableLaundryMachinesLabel.text = availableLaundryMachines
+        }
     }
-  }
-  
-  open var locationString: String? {
-    didSet {
-      self.profileHeaderView?.locationLabel?.text = locationString
+    
+    open var availableDryers: String? {
+        didSet {
+            self.profileHeaderView.availableDryersLabel.text = availableDryers
+        }
     }
-  }
-  
-  open var descriptionString: String? {
-    didSet {
-      self.profileHeaderView?.descriptionLabel?.text = descriptionString
-    }
-  }
-  
-  open var coverImage: UIImage? {
-    didSet {
-      self.headerCoverView?.image = coverImage
-    }
-  }
   
   // Properties
   
-  var currentIndex: Int = 0 {
-    didSet {
-      self.updateTableViewContent()
+    var currentIndex: Int = 0 {
+        didSet {
+            self.updateTableViewContent()
+        }
     }
-  }
   
-  var scrollViews: [UIScrollView] = []
+    var scrollViews: [UIScrollView] = []
   
-  var currentScrollView: UIScrollView {
-    return scrollViews[currentIndex]
-  }
+    var currentScrollView: UIScrollView {
+        return scrollViews[currentIndex]
+    }
   
   
   fileprivate var mainScrollView: UIScrollView!
@@ -124,7 +114,6 @@ open class TwitterProfileViewController: UIViewController {
     super.viewDidLayoutSubviews()
     
     print(profileHeaderView.sizeThatFits(self.mainScrollView.bounds.size))
-    self.profileHeaderViewHeight = profileHeaderView.sizeThatFits(self.mainScrollView.bounds.size).height
     
     if self.shouldUpdateScrollViewContentFrame {
       
@@ -183,7 +172,7 @@ extension TwitterProfileViewController {
       make.edges.equalTo(_stickyHeaderContainer)
     }
     
-    coverImageView.image = UIImage(named: "background.png")
+    coverImageView.image = UIImage(named: "header_Sample")
     coverImageView.contentMode = .scaleAspectFill
     coverImageView.clipsToBounds = true
     self.headerCoverView = coverImageView
@@ -201,7 +190,7 @@ extension TwitterProfileViewController {
     
     // Detail Title
     let _navigationDetailLabel = UILabel()
-    _navigationDetailLabel.text = "121 Tweets"
+    _navigationDetailLabel.text = "IlliniLaundry"
     _navigationDetailLabel.textColor = UIColor.white
     _navigationDetailLabel.font = UIFont.boldSystemFont(ofSize: 13.0)
     _stickyHeaderContainer.addSubview(_navigationDetailLabel)
@@ -213,7 +202,7 @@ extension TwitterProfileViewController {
     
     // Navigation Title
     let _navigationTitleLabel = UILabel()
-    _navigationTitleLabel.text = self.username ?? "{username}"
+    _navigationTitleLabel.text = self.dormName ?? "{dormName}"
     _navigationTitleLabel.textColor = UIColor.white
     _navigationTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
     _stickyHeaderContainer.addSubview(_navigationTitleLabel)
@@ -232,14 +221,12 @@ extension TwitterProfileViewController {
       _mainScrollView.addSubview(_profileHeaderView)
       self.profileHeaderView = _profileHeaderView
       
-      self.profileHeaderView.usernameLabel.text = self.username
-      self.profileHeaderView.locationLabel.text = self.locationString
-      self.profileHeaderView.iconImageView.image = self.profileImage
+      self.profileHeaderView.dormNameLabel.text = self.dormName
     }
     
     
     // Segmented Control Container
-    let _segmentedControlContainer = UIView.init(frame: CGRect.init(x: 0, y: 0, width: mainScrollView.bounds.width, height: 100))
+    let _segmentedControlContainer = UIView.init(frame: CGRect.init(x: 0, y: 0, width: mainScrollView.bounds.width, height: self.segmentedControlContainerHeight))
     _segmentedControlContainer.backgroundColor = UIColor.white
     _mainScrollView.addSubview(_segmentedControlContainer)
     self.segmentedControlContainer = _segmentedControlContainer
@@ -353,10 +340,6 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       self.mainScrollView.scrollIndicatorInsets = computeMainScrollViewIndicatorInsets()
     }
     
-    // Universal
-    // applied to every contentOffset.y
-    let scaleProgress = max(0, min(1, contentOffset.y / self.scrollToScaleDownProfileIconDistance))
-    self.profileHeaderView.animator(t: scaleProgress)
     
     if contentOffset.y > 0 {
     
@@ -385,12 +368,12 @@ extension TwitterProfileViewController: UIScrollViewDelegate {
       
       // Override
       // When scroll View reached the top edge of Title label
-      if let titleLabel = profileHeaderView.titleLabel, let usernameLabel = profileHeaderView.usernameLabel  {
+      if let titleLabel = profileHeaderView.dormNameLabel {
         
         // titleLabel location relative to self.view
-        let titleLabelLocationY = stickyheaderContainerViewHeight - 35
+        let titleLabelLocationY = stickyheaderContainerViewHeight - 65
         
-        let totalHeight = titleLabel.bounds.height + usernameLabel.bounds.height + 35
+        let totalHeight = titleLabel.bounds.height + 65
         let detailProgress = max(0, min((contentOffset.y - titleLabelLocationY) / totalHeight, 1))
         blurEffectView.alpha = detailProgress
         animateNaivationTitleAt(progress: detailProgress)
@@ -409,7 +392,7 @@ extension TwitterProfileViewController {
       return
     }
     
-    let totalDistance: CGFloat = 75
+    let totalDistance: CGFloat = 55
     
     if progress >= 0 {
       let distance = (1 - progress) * totalDistance
@@ -447,7 +430,7 @@ extension TwitterProfileViewController {
     self.updateMainScrollViewFrame()
     
     // auto scroll to top if mainScrollView.contentOffset > navigationHeight + segmentedControl.height
-    let navigationHeight = self.scrollToScaleDownProfileIconDistance
+    let navigationHeight = self.scrollToTopDistance
     let threshold = self.computeProfileHeaderViewFrame().lf_originBottom - navigationHeight
     
     if mainScrollView.contentOffset.y > threshold {
