@@ -21,7 +21,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Available Laundry Machines:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvT-dE-c3i">
-                    <rect key="frame" x="20" y="39" width="194.5" height="18"/>
+                    <rect key="frame" x="20" y="39" width="195" height="18"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -32,23 +32,19 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvO-Eb-P9R">
-                    <rect key="frame" x="265" y="5" width="115" height="27"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="115" id="xu1-lU-DBK"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                    <state key="normal" title="Add To Favorites"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kg1-2o-jSt">
+                    <rect key="frame" x="336" y="5" width="44" height="30"/>
+                    <state key="normal" title="toggle"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="qC1-aZ-2nk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="2U5-fn-Kdy"/>
-                <constraint firstItem="gvO-Eb-P9R" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="3nS-Xd-B7y"/>
                 <constraint firstItem="Uzr-YL-pj4" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="4vU-Dk-Bt6"/>
                 <constraint firstItem="mvT-dE-c3i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="CwS-9g-R5H"/>
+                <constraint firstItem="kg1-2o-jSt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="P6g-hq-53T"/>
+                <constraint firstAttribute="trailing" secondItem="kg1-2o-jSt" secondAttribute="trailing" constant="20" id="SJg-JG-efG"/>
                 <constraint firstItem="mvT-dE-c3i" firstAttribute="top" secondItem="Uzr-YL-pj4" secondAttribute="bottom" constant="8" id="tSs-5L-Bhx"/>
-                <constraint firstAttribute="trailing" secondItem="gvO-Eb-P9R" secondAttribute="trailing" constant="20" id="ubd-df-g5k"/>
                 <constraint firstItem="Uzr-YL-pj4" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="vJ8-PL-v4x"/>
                 <constraint firstItem="qC1-aZ-2nk" firstAttribute="top" secondItem="mvT-dE-c3i" secondAttribute="bottom" constant="2" id="vwc-mG-XXX"/>
             </constraints>
@@ -58,7 +54,7 @@
                 <outlet property="availableDryersLabel" destination="qC1-aZ-2nk" id="bIW-NK-tLC"/>
                 <outlet property="availableLaundryMachinesLabel" destination="mvT-dE-c3i" id="K9d-sI-ZXL"/>
                 <outlet property="dormNameLabel" destination="Uzr-YL-pj4" id="m8C-yL-Tk6"/>
-                <outlet property="favoritesButton" destination="gvO-Eb-P9R" id="14u-y6-GEq"/>
+                <outlet property="favoritesButton" destination="kg1-2o-jSt" id="MgU-lw-tdz"/>
             </connections>
             <point key="canvasLocation" x="46" y="-6.5"/>
         </view>

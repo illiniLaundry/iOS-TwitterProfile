@@ -32,6 +32,7 @@ open class TwitterProfileViewController: UIViewController {
     open var dormName: String? {
         didSet {
             self.profileHeaderView.dormNameLabel.text = dormName
+            self.navigationTitleLabel.text = dormName
         }
     }
     
@@ -44,6 +45,12 @@ open class TwitterProfileViewController: UIViewController {
     open var availableLaundryMachines: String? {
         didSet {
             self.profileHeaderView.availableLaundryMachinesLabel.text = availableLaundryMachines
+        }
+    }
+    
+    open var favoritesButtonTitle: String? {
+        didSet {
+            self.profileHeaderView.favoritesButton.setTitle(favoritesButtonTitle, for: .normal)
         }
     }
     
@@ -109,23 +116,29 @@ open class TwitterProfileViewController: UIViewController {
     
     shouldUpdateScrollViewContentFrame = true
   }
+
+    
   
   override open func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
     print(profileHeaderView.sizeThatFits(self.mainScrollView.bounds.size))
     
+
+    
     if self.shouldUpdateScrollViewContentFrame {
-      
       // configure layout frames
       self.stickyHeaderContainerView.frame = self.computeStickyHeaderContainerViewFrame()
-      
+        
       self.profileHeaderView.frame = self.computeProfileHeaderViewFrame()
+        
       
       self.segmentedControlContainer.frame = self.computeSegmentedControlContainerFrame()
+        
       
       self.scrollViews.forEach({ (scrollView) in
         scrollView.frame = self.computeTableViewFrame(tableView: scrollView)
+        
       })
       
       self.updateMainScrollViewFrame()
@@ -153,6 +166,8 @@ extension TwitterProfileViewController {
     self.mainScrollView  = _mainScrollView
     
     self.view.addSubview(_mainScrollView)
+    
+
     
     _mainScrollView.snp.makeConstraints { (make) in
       make.edges.equalTo(self.view)
@@ -202,7 +217,7 @@ extension TwitterProfileViewController {
     
     // Navigation Title
     let _navigationTitleLabel = UILabel()
-    _navigationTitleLabel.text = self.dormName ?? "{dormName}"
+    _navigationTitleLabel.text = self.dormName ?? "Default Dorm"
     _navigationTitleLabel.textColor = UIColor.white
     _navigationTitleLabel.font = UIFont.boldSystemFont(ofSize: 17.0)
     _stickyHeaderContainer.addSubview(_navigationTitleLabel)
