@@ -31,8 +31,9 @@ open class TwitterProfileViewController: UIViewController {
 
     open var dormName: String? {
         didSet {
-            self.profileHeaderView.dormNameLabel.text = dormName
-            self.navigationTitleLabel.text = dormName
+            let parsed_name = dormName.components(separatedBy: ",")[0]
+            self.profileHeaderView.dormNameLabel.text = parsed_name
+            self.navigationTitleLabel.text = parsed_name
         }
     }
     
