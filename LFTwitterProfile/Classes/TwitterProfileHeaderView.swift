@@ -11,7 +11,8 @@ import UIKit
 
 class TwitterProfileHeaderView: UIView {
     
-  
+    var dorm_name_untruncated: String = ""
+    
     @IBOutlet weak var dormNameLabel: UILabel!
     
     @IBOutlet weak var favoritesButton: UIButton!
@@ -28,7 +29,7 @@ class TwitterProfileHeaderView: UIView {
     
     func clicked() {
         var favoritesData = UserDefaults.standard.stringArray(forKey: "favorites") ?? [String]()
-        if(!favoritesData.contains(self.dormNameLabel.text!)) {
+        if(!favoritesData.contains(self.dorm_name_untruncated)) {
             addToFavorites()
         }
         else {
@@ -39,8 +40,8 @@ class TwitterProfileHeaderView: UIView {
     
     func addToFavorites() {
         var favoritesData = UserDefaults.standard.stringArray(forKey: "favorites") ?? [String]()
-        if(!favoritesData.contains(self.dormNameLabel.text!)) {
-            favoritesData.append(self.dormNameLabel.text!)
+        if(!favoritesData.contains(self.dorm_name_untruncated)) {
+            favoritesData.append(self.dorm_name_untruncated)
             UserDefaults.standard.set(favoritesData, forKey: "favorites")
             print ("added to favorites")
         }
@@ -50,7 +51,7 @@ class TwitterProfileHeaderView: UIView {
     
     func removeFromFavorites() {
         var favoritesData = UserDefaults.standard.stringArray(forKey: "favorites") ?? [String]()
-        if let index = favoritesData.index(of: self.dormNameLabel.text!) {
+        if let index = favoritesData.index(of: self.dorm_name_untruncated) {
             favoritesData.remove(at: index)
             
             UserDefaults.standard.set(favoritesData, forKey: "favorites")

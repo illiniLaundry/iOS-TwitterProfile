@@ -28,10 +28,12 @@ open class TwitterProfileViewController: UIViewController {
     open var profileHeaderViewHeight: CGFloat = 80
   
     open let segmentedControlContainerHeight: CGFloat = 50
+    
 
     open var dormName: String? {
         didSet {
-            let parsed_name = dormName.components(separatedBy: ",")[0]
+            self.profileHeaderView.dorm_name_untruncated = dormName!
+            let parsed_name = dormName?.components(separatedBy: ",")[0]
             self.profileHeaderView.dormNameLabel.text = parsed_name
             self.navigationTitleLabel.text = parsed_name
         }
